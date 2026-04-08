@@ -12,6 +12,11 @@
         .ticket-clip { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 70%, 15px 60%, 15px 40%, 0 30%); }
         .font-wedding { font-family: 'Playfair Display', serif; }
         .hidden { display: none; }
+        /* Style untuk tombol saat dinonaktifkan */
+        button:disabled {
+            background-color: #9ca3af !important;
+            cursor: not-allowed;
+            opacity: 0.7;
     </style>
 </head>
 <body class="p-6">
@@ -98,6 +103,7 @@
         // MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI SINI
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzLMx-_aCiFHbdwbVZwKKEavEhe1wOCTsXCzk66YSq1i1Vn0GDwCLGvBYjbFNldwl1c0g/exec'; 
         const form = document.getElementById('weddingForm');
+        const submitBtn = document.getElementById('submitBtn');
 
         function setStatus(status) {
             document.getElementById('inputStatus').value = status;
@@ -105,24 +111,30 @@
             
             if(status === 'Hadir') {
                 paxSection.classList.remove('hidden');
-                document.getElementById('btnHadir').style.backgroundColor = "#1e3a8a"; // blue-900
-                document.getElementById('btnHadir').style.color = "white";
-                document.getElementById('btnTidak').style.backgroundColor = "transparent";
-                document.getElementById('btnTidak').style.color = "#b91c1c"; // red-700
+                document.getElementById('btnHadir').classList.add('bg-blue-900', 'text-white');
+                document.getElementById('btnTidak').classList.remove('bg-red-700', 'text-white');
+                // Jalankan pengecekan jumlah pax saat status dipindah ke Hadir
+                checkPax(document.getElementById('paxCount').value);
             } else {
                 paxSection.classList.add('hidden');
-                document.getElementById('paxCount').value = "0"; // Set 0 jika tidak hadir
-                document.getElementById('btnTidak').style.backgroundColor = "#b91c1c"; // red-700
-                document.getElementById('btnTidak').style.color = "white";
-                document.getElementById('btnHadir').style.backgroundColor = "transparent";
-                document.getElementById('btnHadir').style.color = "#1e3a8a"; // blue-900
+                document.getElementById('inputStatus').value = 'Tidak Hadir';
+                document.getElementById('btnTidak').classList.add('bg-red-700', 'text-white');
+                document.getElementById('btnHadir').classList.remove('bg-blue-900', 'text-white');
+                // Jika tidak hadir, tombol submit harus aktif kembali
+                submitBtn.disabled = false;
                 document.getElementById('warningPax').classList.add('hidden');
             }
         }
 
         function checkPax(val) {
             const warning = document.getElementById('warningPax');
-            val === "2" ? warning.classList.remove('hidden') : warning.classList.add('hidden');
+            if (val === "2") {
+                warning.classList.remove('hidden');
+                submitBtn.disabled = true; // Nonaktifkan tombol
+            } else {
+                warning.classList.add('hidden');
+                submitBtn.disabled = false; // Aktifkan tombol
+            }
         }
 
         form.addEventListener('submit', e => {
@@ -140,20 +152,14 @@
             fetch(scriptURL, { method: 'POST', body: new FormData(form)})
                 .then(response => {
                     document.getElementById('loading').classList.add('hidden');
-                    
-                    if(status === 'Hadir') {
-                        showTicket();
-                    } else {
-                        showAbsentMessage();
-                    }
+                    status === 'Hadir' ? showTicket() : showAbsentMessage();
                 })
                 .catch(error => {
-                    alert('Terjadi kesalahan saat mengirim data. Pastikan URL Google Script sudah benar!');
+                    alert('Error!');
                     document.getElementById('loading').classList.add('hidden');
                     document.getElementById('registration-form').classList.remove('hidden');
                 });
         });
-
         function showTicket() {
             document.getElementById('viewName').innerText = document.getElementById('guestName').value;
             document.getElementById('viewPax').innerText = document.getElementById('paxCount').value + " ORANG";
