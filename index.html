@@ -1,15 +1,3 @@
-
-1 file changed
-+0
--5
-lines changed
-Search within code
- 
-‎index.html‎
--5
-Lines changed: 0 additions & 5 deletions
-Original file line number	Diff line number	Diff line change
-@@ -1,172 +1,167 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -37,7 +25,7 @@ Original file line number	Diff line number	Diff line change
         <h2 class="text-2xl font-bold mb-2 text-center text-blue-900 uppercase tracking-tighter text-blue-950">The Wedding of</h2>
         <h2 class="text-2xl font-bold mb-2 text-center text-blue-900 uppercase tracking-tighter text-blue-950">Azis & Eka<br></h2>
         <p class="text-center text-gray-500 text-sm mb-6 underline font-semibold">Konfirmasi Kehadiran Tamu Undangan</p>
-
+        
         <form id="weddingForm" class="space-y-4">
             <div>
                 <label class="block text-xs font-bold text-gray-500 uppercase">Nama Tamu</label>
@@ -118,7 +106,7 @@ Original file line number	Diff line number	Diff line change
         function setStatus(status) {
             document.getElementById('inputStatus').value = status;
             const paxSection = document.getElementById('paxSection');
-
+            
             if(status === 'Hadir') {
                 paxSection.classList.remove('hidden');
                 document.getElementById('btnHadir').classList.add('bg-blue-900', 'text-white');
