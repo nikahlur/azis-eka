@@ -118,18 +118,6 @@
                 document.getElementById('warningPax').classList.add('hidden');
             }
         }
-
-        function checkPax(val) {
-            const warning = document.getElementById('warningPax');
-            if (val === "2") {
-                warning.classList.remove('hidden');
-                submitBtn.disabled = true; // Nonaktifkan tombol
-            } else {
-                warning.classList.add('hidden');
-                submitBtn.disabled = false; // Aktifkan tombol
-            }
-        }
-
         form.addEventListener('submit', e => {
             e.preventDefault();
             const status = document.getElementById('inputStatus').value;
