@@ -3,130 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nikah Lur - Azis & Eka</title>
+    <title>Wedding Boarding Pass & RSVP</title>
     <script src="https://cdn.tailwindcss.com"></script>
-     <link rel="icon" type="image/png" href="/nikahlur.png">
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&family=Libre+Barcode+128&family=Playfair+Display:italic,wght@700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'League Spartan', sans-serif; background: #e5e7eb; }
         .ticket-clip { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 70%, 15px 60%, 15px 40%, 0 30%); }
         .font-wedding { font-family: 'Playfair Display', serif; }
         .hidden { display: none; }
-        /* Style untuk tombol saat dinonaktifkan */
-        button:disabled {
-            background-color: #9ca3af !important;
-            cursor: not-allowed;
-            opacity: 0.7;
     </style>
 </head>
 <body class="p-6">
-    <!-- FORM REGISTRASI -->
+
     <div id="registration-form" class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-xl border border-gray-200">
-        <h2 class="text-2xl font-bold mb-2 text-center text-blue-900 uppercase tracking-tighter text-blue-950">The Wedding of</h2>
-        <h2 class="text-2xl font-bold mb-2 text-center text-blue-900 uppercase tracking-tighter text-blue-950">Azis & Eka<br></h2>
-        <p class="text-center text-gray-500 text-sm mb-6 underline font-semibold">Konfirmasi Kehadiran Tamu Undangan</p>
+        <h2 class="text-2xl font-bold mb-2 text-center text-blue-900 uppercase tracking-tighter">Guest Registration</h2>
+        <p class="text-center text-gray-500 text-sm mb-6 underline font-semibold">Confirm your flight to our wedding</p>
         
         <form id="weddingForm" class="space-y-4">
             <div>
-                <label class="block text-xs font-bold text-gray-500 uppercase">Nama Tamu</label>
+                <label class="block text-xs font-bold text-gray-500 uppercase">Passenger Name</label>
                 <input type="text" name="nama" id="guestName" required class="w-full p-3 border-b-2 border-blue-900 focus:outline-none bg-gray-50">
             </div>
 
             <div>
-                <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Konfirmasi Kehadiran</label>
+                <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Confirmation</label>
                 <div class="grid grid-cols-2 gap-4">
-                    <button type="button" onclick="setStatus('Hadir')" id="btnHadir" class="py-2 border-2 border-blue-900 font-bold rounded hover:bg-blue-900 hover:text-white transition">HADIR</button>
-                    <button type="button" onclick="setStatus('Tidak Hadir')" id="btnTidak" class="py-2 border-2 border-red-700 text-red-700 font-bold rounded hover:bg-red-700 hover:text-white transition">TIDAK HADIR</button>
+                    <button type="button" onclick="setStatus('Hadir')" id="btnHadir" class="py-2 border-2 border-blue-900 font-bold rounded transition">HADIR</button>
+                    <button type="button" onclick="setStatus('Tidak Hadir')" id="btnTidak" class="py-2 border-2 border-red-700 text-red-700 font-bold rounded transition">TIDAK HADIR</button>
                 </div>
                 <input type="hidden" name="status" id="inputStatus" required>
             </div>
 
-            <div id="paxSection" class="hidden">
-                <p class="text-red-800 text-xs mt-2 italic font-semibold leading-relaxed">
-                    * Mohon maaf pasangannya tidak disertakan, kami ingin acara kami sebagai momen kumpul bareng teman tertawa bahagia kembali setelah lama tidak berjumpa. Jika keberatan, minta doanya dari rumah saja ya!
-                </p>
+            <div id="paxInfo" class="hidden mt-2">
+                <input type="hidden" name="jumlah" id="paxCount" value="1">
+                
+                <div class="bg-blue-50 border-l-4 border-blue-900 p-3 rounded">
+                    <p class="text-blue-900 text-xs italic font-semibold leading-relaxed">
+                        * Mohon maaf, karena keterbatasan tempat, undangan ini khusus untuk 1 orang saja.
+                    </p>
+                </div>
             </div>
 
-            <button type="submit" id="submitBtn" class="w-full bg-blue-900 text-white font-bold py-4 rounded-lg shadow-lg hover:bg-blue-950 transition-all uppercase tracking-widest mt-4">Gas Lur!</button>
+            <button type="submit" id="submitBtn" class="w-full bg-blue-900 text-white font-bold py-4 rounded-lg shadow-lg hover:bg-blue-950 transition-all uppercase tracking-widest mt-4">Submit RSVP</button>
         </form>
     </div>
 
-    <!-- LOADING STATE -->
-    <div id="loading" class="hidden text-center mt-10 font-bold text-blue-900 animate-pulse uppercase tracking-widest">Sabar Ya</div>
+    <div id="loading" class="hidden text-center mt-10 font-bold text-blue-900 animate-pulse uppercase tracking-widest">Memproses Data...</div>
 
-    <!-- TAMPILAN JIKA TIDAK HADIR -->
     <div id="absent-view" class="hidden max-w-md mx-auto mt-10 bg-white p-10 rounded-2xl shadow-2xl text-center border-t-8 border-blue-900">
         <h3 class="font-wedding text-3xl text-blue-900 mb-4">Terima Kasih</h3>
-        <p class="text-gray-600 leading-relaxed">
-            Terima kasih atas konfirmasi yang telah diberikan. Kami sungguh menghargai dan memahami ketidakhadiran Anda pada momen bahagia kami.
-        <div class="my-6 border-y border-gray-100 py-4">
-            <p class="italic text-gray-500">
-                "Mohon doa dan restu nya yaa. Agar rangkaian acara pernikahan kami dapat berjalan dengan lancar, penuh keberkahan, serta menjadi awal yang baik bagi perjalanan kami ke depan. Terima kasih atas perhatian, pengertian, serta doa yang telah diberikan."
+        <p class="text-gray-600">Terima kasih telah memberikan konfirmasi kehadiran Anda.</p>
+        <div class="my-6 border-y border-gray-100 py-4 italic text-gray-500">
+            "Kami memohon doa restu dan harapan baik Anda agar perjalanan baru kami ini senantiasa diberkati."
         </div>
-        <p class="font-bold text-blue-900 tracking-widest uppercase text-sm">- Azis & Eka -</p>
+        <p class="font-bold text-blue-900 tracking-widest uppercase text-sm">- Romeo & Juliet -</p>
     </div>
 
-    <!-- BOARDING PASS TICKET (JIKA HADIR) -->
     <div id="boarding-pass" class="hidden max-w-3xl mx-auto mt-10">
         <div class="bg-white rounded-2xl shadow-2xl flex flex-col md:flex-row overflow-hidden border-2 border-blue-900 ticket-clip">
             <div class="flex-grow p-6 border-b-2 md:border-b-0 md:border-r-2 border-dashed border-gray-300">
                 <div class="flex justify-between items-center mb-6">
                     <div class="text-blue-900 font-bold text-xl tracking-widest italic">WEDDING AIRWAYS</div>
-                    <div class="text-right text-xs"><p>SEAT NO.</p><p class="font-bold text-base text-blue-900">LIHAT UNDANGAN CETAK</p></div>
+                    <div class="text-right text-xs"><p>FLIGHT NO.</p><p class="font-bold text-base text-blue-900">LOVE-2026</p></div>
                 </div>
                 <div class="grid grid-cols-2 gap-6">
-                    <div><p class="text-[10px] text-gray-400 font-bold">NAMA TAMU</p><p id="viewName" class="font-bold uppercase text-lg text-blue-950">-</p></div>
-                    <div class="text-right"><p class="text-[10px] text-gray-400 font-bold">ACARA</p><p class="font-bold text-lg uppercase text-blue-950">WALIMATUL URSY</p></div>
-                    <div><p class="text-[10px] text-gray-400 font-bold">LOKASI</p><p class="font-bold text-2xl text-blue-950 font-wedding">SAUNG KAY</p></div>
-                    <div class="text-right"><p class="text-[10px] text-gray-400 font-bold">WAKTU</p><p class="font-bold text-2xl text-blue-900 font-wedding italic">14:00 - SELESAI</p></div>
+                    <div><p class="text-[10px] text-gray-400 font-bold">PASSENGER NAME</p><p id="viewName" class="font-bold uppercase text-lg text-blue-950">-</p></div>
+                    <div class="text-right"><p class="text-[10px] text-gray-400 font-bold">GATE</p><p class="font-bold text-lg uppercase text-blue-950">Grand Ballroom</p></div>
+                    <div><p class="text-[10px] text-gray-400 font-bold">FROM</p><p class="font-bold text-2xl text-blue-950 font-wedding">SOLO</p></div>
+                    <div class="text-right"><p class="text-[10px] text-gray-400 font-bold">TO</p><p class="font-bold text-2xl text-blue-900 font-wedding italic">HEAVEN</p></div>
                 </div>
             </div>
             <div class="bg-blue-900 text-white p-6 w-full md:w-64 flex flex-col justify-between">
                 <div>
-                    <h3 class="font-bold text-lg leading-tight uppercase font-wedding italic">The Wedding of Azis & Eka</h3>
-                    <div class="mt-4"><p class="text-[10px] opacity-70 uppercase font-bold">Date of Wedding</p><p class="font-bold italic">01 AUG 2026</p></div>
-                    <div class="mt-2"><p class="text-[10px] opacity-70 font-bold uppercase">JUMLAH ORANG</p><p id="viewPax" class="font-bold text-lg">-</p></div>
+                    <h3 class="font-bold text-lg leading-tight uppercase font-wedding italic">Romeo & Juliet</h3>
+                    <div class="mt-4"><p class="text-[10px] opacity-70 uppercase font-bold text-xs">PAX</p><p id="viewPax" class="font-bold text-lg">-</p></div>
                 </div>
+                <div style="font-family: 'Libre Barcode 128';" class="bg-white text-black text-center text-4xl py-1 mt-4 rounded">INVITATION</div>
             </div>
         </div>
-        <p class="text-center mt-6 text-gray-500 text-sm italic font-semibold">Terima kasih atas konfirmasi kehadiran Anda. Kami sangat senang Anda bisa hadir dan merayakan momen bahagia ini bersama kami!!</p>
+        <p class="text-center mt-6 text-gray-500 text-sm italic font-semibold">Silakan screenshot tiket ini untuk akses masuk pintu utama.</p>
     </div>
 
     <script>
-        // MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI SINI
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzLMx-_aCiFHbdwbVZwKKEavEhe1wOCTsXCzk66YSq1i1Vn0GDwCLGvBYjbFNldwl1c0g/exec'; 
+        const scriptURL = 'URL_WEB_APP_ANDA'; // JANGAN LUPA GANTI URL INI
         const form = document.getElementById('weddingForm');
-        const submitBtn = document.getElementById('submitBtn');
 
         function setStatus(status) {
             document.getElementById('inputStatus').value = status;
-            const paxSection = document.getElementById('paxSection');
+            const paxInfo = document.getElementById('paxInfo');
             
             if(status === 'Hadir') {
-                paxSection.classList.remove('hidden');
+                paxInfo.classList.remove('hidden');
                 document.getElementById('btnHadir').classList.add('bg-blue-900', 'text-white');
                 document.getElementById('btnTidak').classList.remove('bg-red-700', 'text-white');
-                // Jalankan pengecekan jumlah pax saat status dipindah ke Hadir
-                checkPax(document.getElementById('paxCount').value);
+                document.getElementById('paxCount').value = "1"; // Set otomatis 1 pax
             } else {
-                paxSection.classList.add('hidden');
+                paxInfo.classList.add('hidden');
                 document.getElementById('inputStatus').value = 'Tidak Hadir';
                 document.getElementById('btnTidak').classList.add('bg-red-700', 'text-white');
                 document.getElementById('btnHadir').classList.remove('bg-blue-900', 'text-white');
-                // Jika tidak hadir, tombol submit harus aktif kembali
-                submitBtn.disabled = false;
-                document.getElementById('warningPax').classList.add('hidden');
-            }
-        }
-
-        function checkPax(val) {
-            const warning = document.getElementById('warningPax');
-            if (val === "2") {
-                warning.classList.remove('hidden');
-                submitBtn.disabled = true; // Nonaktifkan tombol
-            } else {
-                warning.classList.add('hidden');
-                submitBtn.disabled = false; // Aktifkan tombol
+                document.getElementById('paxCount').value = "0"; // Set 0 pax jika tidak hadir
             }
         }
 
@@ -153,9 +129,10 @@
                     document.getElementById('registration-form').classList.remove('hidden');
                 });
         });
+
         function showTicket() {
             document.getElementById('viewName').innerText = document.getElementById('guestName').value;
-            document.getElementById('viewPax').innerText = document.getElementById('paxCount').value + " ORANG";
+            document.getElementById('viewPax').innerText = document.getElementById('paxCount').value + " PAX";
             document.getElementById('boarding-pass').classList.remove('hidden');
         }
 
