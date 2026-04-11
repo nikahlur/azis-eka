@@ -31,7 +31,9 @@
                 <label class="block text-xs font-bold text-gray-500 uppercase">Nama Tamu</label>
                 <input type="text" name="nama" id="guestName" required class="w-full p-3 border-b-2 border-blue-900 focus:outline-none bg-gray-50">
             </div>
-
+            <p id="warningPax" class="hidden text-red-800 text-xs mt-2 italic font-semibold leading-relaxed">
+                    * Mohon maaf pasangannya tidak disertakan, kami ingin acara kami sebagai momen kumpul bareng teman tertawa bahagia kembali setelah lama tidak berjumpa. Jika keberatan, minta doanya dari rumah saja ya!
+                </p>
             <div>
                 <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Konfirmasi Kehadiran</label>
                 <div class="grid grid-cols-2 gap-4">
@@ -40,9 +42,6 @@
                 </div>
                 <input type="hidden" name="status" id="inputStatus" required>
             </div>
-                <p id="warningPax" class="hidden text-red-800 text-xs mt-2 italic font-semibold leading-relaxed">
-                    * Mohon maaf pasangannya tidak disertakan, kami ingin acara kami sebagai momen kumpul bareng teman tertawa bahagia kembali setelah lama tidak berjumpa. Jika keberatan, minta doanya dari rumah saja ya!
-                </p>
             <button type="submit" id="submitBtn" class="w-full bg-blue-900 text-white font-bold py-4 rounded-lg shadow-lg hover:bg-blue-950 transition-all uppercase tracking-widest mt-4">Gas Lur!</button>
         </form>
     </div>
