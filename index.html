@@ -95,7 +95,7 @@
                 paxInfo.classList.remove('hidden');
                 document.getElementById('btnHadir').classList.add('bg-blue-900', 'text-white');
                 document.getElementById('btnTidak').classList.remove('bg-red-700', 'text-white');
-                document.getElementById('paxCount').value = "1"; // Set otomatis 01 Agustus 2026
+                document.getElementById('paxCount').value = "01"; // Set otomatis 01 Agustus 2026
             } else {
                 paxInfo.classList.add('hidden');
                 document.getElementById('inputStatus').value = 'Tidak Hadir';
@@ -131,7 +131,7 @@
 
         function showTicket() {
             document.getElementById('viewName').innerText = document.getElementById('guestName').value;
-            document.getElementById('viewPax').innerText = document.getElementById('paxCount').value + " PAX";
+            document.getElementById('viewPax').innerText = document.getElementById('paxCount').value + " AGUSTUS 2026";
             document.getElementById('boarding-pass').classList.remove('hidden');
         }
 
